@@ -1,12 +1,15 @@
-import React, { useState } from "react"
-import { StyleSheet } from "react-native";
-import { Button } from "react-native";
-import { TextInput } from "react-native";
-import { View } from "react-native";
-import { Text } from "react-native"
+import React, { useContext, useState } from "react"
+import { StyleSheet, Text, Button, TextInput, View } from "react-native";
+import { 
+    CREATE_USER,
+    UPDATE_USER
+} from "../context/types";
+
+import UsersContext from "../context/UsersContext";
 
 export default ({route, navigation}) => {
     const [user, setUser] = useState(route.params ? route.params : {});
+    const {dispatch} = useContext(UsersContext)
     return(
         <View>
             <View>
@@ -37,6 +40,10 @@ export default ({route, navigation}) => {
                 />
             </View>
             <Button title="Salvar" onPress={() => {
+                dispatch({
+                    type: user.id ? UPDATE_USER : CREATE_USER,
+                    payload: user,
+                })
                 navigation.goBack()
             }} />
         </View>
